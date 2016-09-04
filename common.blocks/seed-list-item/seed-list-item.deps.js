@@ -4,6 +4,7 @@
 
 
 ({
+    mustDeps: 'i18n',
     shouldDeps: [
         'followed-unfollowed', 'profile',
         {

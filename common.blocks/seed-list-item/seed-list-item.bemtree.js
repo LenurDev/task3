@@ -2,10 +2,15 @@
  * Created by Yulia on 22.08.16.
  */
 
+/**
+ * Created by admin on 04.09.16.
+ */
+
 block('seed-list-item').content()(function () {
-    var seed = this.ctx.seed;
-    var moment = this.require('moment');
-    moment.locale('ru');
+    var seed = this.ctx.seed,
+        i18n = this.i18n,
+        moment = this.require('moment');
+        moment.locale(i18n('root', 'lang'));
 
     var msg = seed.msg;
 
@@ -61,11 +66,11 @@ block('seed-list-item').content()(function () {
                             mods: {theme: 'islands', size: 'm', view: 'action', type: 'link'},
                             mix: {block: 'seed-list-item', elem: 'answer'},
                             url: '/seed/add/?id=' + seed.id,
-                            text: 'Ответить'
+                            text: i18n('root', 'reply')
                         },
                         seed.parent ? {
                             elem: 'reply',
-                            content: '(Это ответ)'
+                            content: i18n('root', 'isAnswer')
                         } : ''
                     ]
                 }
