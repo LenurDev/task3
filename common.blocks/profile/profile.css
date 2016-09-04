@@ -1,0 +1,70 @@
+.profile
+{
+    position: relative;
+
+    border: 1px solid #979797;
+    border-radius: 10px;
+}
+.profile .avatar
+{
+    float: left;
+    margin-right: 10px;
+}
+.profile .avatar_largeView
+{
+    float: none;
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+.profile__nick
+{
+    font-size: 11pt;
+
+    color: #0084b4;
+}
+.profile__link
+{
+    display: block;
+    min-height: 80px;
+}
+.profile .link:visited,
+.profile .link:link
+{
+    text-decoration: none;
+
+    color: inherit;
+}
+.profile .link:hover,
+.profile .link:focus
+{
+    outline: none;
+}
+.profile__description
+{
+    padding: 10px 0;
+}
+.profile__statistics
+{
+    text-align: center;
+    margin: 5px;
+}
+.profile .subscribe-button
+{
+    text-align: right;
+    margin: 5px;
+}
+.profile__follow,
+.profile__subscribers,
+.profile__seeds
+{
+    display: inline-block;
+
+    padding-right: 10px;
+
+    white-space: nowrap;
+}
+
+
+.profile_largeView .link__username {
+  margin-left: 10px;
+}

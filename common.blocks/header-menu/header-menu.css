@@ -1,0 +1,41 @@
+.header-menu
+{
+    font-size: 16px;
+
+    height: 100%;
+    margin: 0;
+    padding: 5px 15px;
+
+    background-color: #fff;
+
+    display: flex;
+    justify-content: space-between;  
+}
+
+.header-menu__item
+{
+    display: inline-block;
+
+    margin-right: 18px;
+
+
+    color: #fff;
+}
+
+.header-menu__item:last-child
+{
+    margin-right: 0;
+}
+
+.header-menu__link
+{
+    transition: all .3s;
+    text-decoration: none;
+
+    color: #565656;
+}
+
+.header-menu__link:hover
+{
+    /*color: #fff;*/
+}

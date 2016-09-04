@@ -1,0 +1,35 @@
+.layout
+{
+    position: relative;
+
+    height: 76px;
+}
+
+
+.layout__left
+{
+    position: absolute;
+    z-index: 2;
+    top: 3px;
+    left: 0;
+
+    width: 100px;
+}
+
+.layout__left .image
+{
+    width: 83px;
+}
+
+.layout__right
+{
+    position: relative;
+
+    padding-top: 19px;
+    padding-left: 100px;
+}
+
+.layout__right
+{
+    width: 50%;
+}

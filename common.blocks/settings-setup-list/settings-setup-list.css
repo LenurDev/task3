@@ -1,0 +1,15 @@
+.settings-setup-list .label
+{
+    display: block;
+}
+
+.settings-setup-list .input
+{
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.settings-setup-list__form-save
+{
+    text-align: center;
+}

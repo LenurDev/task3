@@ -1,0 +1,32 @@
+.search-icon
+{
+    position: absolute;
+    top: 26px;
+    right: 0;
+
+    width: 22px;
+    height: 25px;
+
+    cursor: pointer;
+
+    border: none;
+    background: none;
+
+    fill: none;
+    stroke: rgba(151, 151, 151, 1);
+    stroke-width: 2;
+}
+.search-icon > svg
+{
+    width: 17px;
+}
+
+
+.search-icon:focus
+{
+    outline: none;
+}
+.search-icon > svg:focus
+{
+    outline: none;
+}
