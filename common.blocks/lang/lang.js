@@ -8,7 +8,7 @@ modules.define('lang', ['i-bem__dom'], function (provide, BEMDOM) {
                 'js': {
                     'inited': function () {
                         console.log('this.name', this.name);
-                        this.bindTo(this.name, 'click', function (e) {
+                     /*   this.bindTo(this.name, 'click', function (e) {
                             console.log('click');
                             e.preventDefault();
                             // $.get('/profile/'+this.params.userNick+'/subscribe', this.params)
@@ -28,6 +28,7 @@ modules.define('lang', ['i-bem__dom'], function (provide, BEMDOM) {
                             //         }
                             //     });
                         });
+                        */
                     }
                 }
             }

@@ -65,9 +65,13 @@ module.exports = function(config) {
             }],
 
             // templates
-            [techs.bemhtml, { sourceSuffixes: ['bemhtml.js', 'bemhtml'], requires: {
-                moment  : {commonJS : 'moment/min/moment-with-locales.js'}
-            } }],
+            [techs.bemhtml, {
+                sourceSuffixes: ['bemhtml.js', 'bemhtml'],
+                requires: {
+                    moment  : {commonJS : 'moment/min/moment-with-locales.js'}
+                },
+                engineOptions: {}
+            }],
 
             // client templates
             [enbBemTechs.depsByTechToBemdecl, {
@@ -110,14 +114,15 @@ module.exports = function(config) {
             [techs.borschik, { sourceTarget: '?.{lang}.js', destTarget: '?.{lang}.min.js', minify: isProd }],
             [techs.borschik, { sourceTarget: '?.css', destTarget: '?.min.css', tech: 'cleancss', minify: isProd }],
 
-            [techs.fileCopy, { source: '?.min.js', target: '../../static/?.min.js' }],
+            [techs.fileCopy, { source: '?.{lang}.min.js', target: '../../static/?.{lang}.min.js' }],
             [techs.fileCopy, { source: '?.min.css', target: '../../static/?.min.css' }],
             [techs.fileCopy, { source: '?.bemhtml.js', target: '../../static/?.bemhtml.js' }]
         ]);
 
         nodeConfig.addTargets(['?.bemtree.{lang}.js', '?.bemhtml.js',
-            '?.node.js', '?.min.css', '?.{lang}.min.js',
-            // '../../static/?.min.js', '../../static/?.min.css', '../../static/?.bemhtml.js'
+            '?.node.js',
+            //'?.min.css', '?.{lang}.min.js',
+             '../../static/?.{lang}.min.js', '../../static/?.min.css', '../../static/?.bemhtml.js'
         ]);
     });
 };
