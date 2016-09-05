@@ -4,13 +4,14 @@
 
 
 block('lang')(
-    js()(true),
-    tag()('form'),
-    attrs()(function() {
-        return {
-            action: 'l',
-            method: 'POST'
-        };
-    }),
-    mix()({block: 'clearfix'})
+    js()(true)
 );
+
+//tag()('form'),
+//    attrs()(function() {
+//        return {
+//            action: '/',
+//            method: 'POST'
+//        };
+//    }),
+//    mix()({block: 'clearfix'})

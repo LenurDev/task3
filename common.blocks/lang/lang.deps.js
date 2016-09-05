@@ -7,11 +7,16 @@
         {
             block: 'select',
             mods: {
-                mode: 'radio-check',
+                mode: 'radio',
                 theme : 'islands',
                 size : 'm',
                 focused : true
             }
+        },
+        {
+            block : 'i-bem',
+            elem: 'dom',
+            mods : { 'elem-instances' : true }
         }
     ]
 })

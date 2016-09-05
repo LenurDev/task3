@@ -70,7 +70,10 @@ module.exports = function(config) {
                 requires: {
                     moment  : {commonJS : 'moment/min/moment-with-locales.js'}
                 },
-                engineOptions: {}
+                engineOptions: {
+                    //elemJsInstances: true
+                    //escapeContent: true
+                }
             }],
 
             // client templates
