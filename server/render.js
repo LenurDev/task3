@@ -23,7 +23,7 @@ function render(req, res, data, context) {
 
     var query = req.query,
         user = req.user,
-        lang = req.lang || 'en',
+        lang = req.session.lang || 'ru',
         cacheKey = req.url + req.lang + (context ? JSON.stringify(context) : '') + (user ? JSON.stringify(user) : ''),
         cached = cache[cacheKey];
 

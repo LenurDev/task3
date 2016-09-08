@@ -17,6 +17,7 @@ var fs = require('fs'),
     FacebookStrategy = require('passport-facebook').Strategy,
     VKontakteStrategy = require('passport-vkontakte').Strategy,
     env = require('node-env-file'),
+    session = require('express-session'),
 
     mongoose = require('mongoose'),
 
@@ -51,7 +52,13 @@ app
     .use(express.static(__dirname + 'static'))
     .use(passport.initialize())
     .use(passport.session())
-    .use(slashes());
+    .use(slashes())
+    .use(session({
+        secret: 'keyboard cat',
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: true }
+    }));
     // TODO: csrf, gzip
 
 mongoose.connect(config.mongoose.uri);

@@ -9,8 +9,7 @@ block('lang').content()(function() {
                 block : 'select',
                 mods : { mode : 'radio', theme : 'islands', size : 'm', focused : true },
                 name : 'lang',
-                val : 'english',
-                text : 'language',
+                val : 'ru',
                 options : [
                     { val : 'en', text : 'English' },
                     { val : 'ru', text : 'Русский' }

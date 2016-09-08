@@ -35,6 +35,12 @@ module.exports = function(conn, passport){
     router.get('/profile/setup', require('connect-ensure-login').ensureLoggedIn(), userController.findByIdPickName);
     router.post('/profile/setup', require('connect-ensure-login').ensureLoggedIn(), userController.updateByIdPickName);
 
+    router.get('/lang/:lang', function(req, res, next) {
+        console.log('R', req.params.lang);
+        req.session.lang = req.params.lang;
+        res.redirect('/login');
+    });
+
     //seed
     router.post(
         '/seed/add',
@@ -86,6 +92,7 @@ module.exports = function(conn, passport){
 
     router.get('/logout', function(req, res){
         req.logout();
+        req.session.lang = null;
         res.redirect('/');
     });
 

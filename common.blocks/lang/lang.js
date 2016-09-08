@@ -7,9 +7,15 @@ modules.define('lang', ['i-bem__dom', 'jquery'], function (provide, BEMDOM, $) {
             onSetMod: {
                 'js': {
                     'inited': function () {
-                        console.log('this.name', this.findElemInstances('lang', 'button'));
-                        console.log('this.name', this.name);
-                        //this.findElemInstances('select');
+                        var select = this.findBlockInside('select');
+                        select.on('change', function() {
+                            var lang = this.getVal();
+                            //@todo loader
+                            $.get('/lang/'+ lang)
+                                .done(function (data) {
+
+                                });
+                        });
                     }
                 }
             }
