@@ -1,7 +1,7 @@
 module.exports = {
     seedListItem: {
-        lang: 'ru',
-        main: 'Главная страница',
-        key: 'список'
+        title: 'Поиск',
+        isAnswer: 'Это ответ!',
+        reply: 'Ответить'
     }
 };

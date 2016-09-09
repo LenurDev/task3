@@ -1,4 +1,5 @@
 ({
+  mustDeps: 'i18n',
   shouldDeps: [{
     block: 'button',
     mods: {
@@ -11,6 +12,9 @@
       mods: {
         social: ['vk', 'facebook']
       }
+    },
+    {
+      block: 'lang'
     }
   ]
 })

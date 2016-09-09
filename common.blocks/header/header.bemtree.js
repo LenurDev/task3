@@ -1,5 +1,6 @@
 block('header').content()(function () {
-    var currentUser = this.data.currentUser;
+    var currentUser = this.data.currentUser,
+        i18n        = this.i18n;
     return [
         {
             block: 'layout',
@@ -25,7 +26,7 @@ block('header').content()(function () {
                             {
                                 block: 'input',
                                 name: 'text',
-                                placeholder: 'Search for seeds'
+                                placeholder: i18n('header', 'phSearch')
                             },
                             {
                                 block: 'search-icon',

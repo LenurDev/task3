@@ -4,7 +4,8 @@
 
 block('header-menu').content()(function() {
 
-    var isAuthenticated = this.data.isAuthenticated;
+    var isAuthenticated = this.data.isAuthenticated,
+        i18n            = this.i18n;
 
     return [
         isAuthenticated ?
@@ -15,7 +16,7 @@ block('header-menu').content()(function() {
                     elem: 'link',
                     tag: 'a',
                     attrs: { href: '/seed/add' },
-                    content: 'Создать Новый Сид'
+                    content: i18n('headerMenu', 'create')
                 }
             } : ''
     ];

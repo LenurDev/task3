@@ -1,4 +1,5 @@
 block('addSeed').content()(function () {
+    var i18n = this.i18n;
     return {
         content: [
             {
@@ -9,7 +10,7 @@ block('addSeed').content()(function () {
                     maxlength: 140,
                     required: true
                 },
-                placeholder: 'Введите сообщение'
+                placeholder: i18n('addSeed', 'text')
             },
             this.ctx.replyTo ? {
                 block: 'input',
@@ -21,7 +22,7 @@ block('addSeed').content()(function () {
                 block: 'button',
                 mods: {theme: 'islands', size: 'l', type: 'submit'},
                 type: 'submit',
-                text: 'add'
+                text: i18n('addSeed', 'button')
             },
             {
                 block: 'attach',
@@ -35,7 +36,7 @@ block('addSeed').content()(function () {
                         block: 'icon',
                         url: '/img/icon-camera.svg'
                     },
-                    text:'Добавить фото'
+                    text:i18n('addSeed', 'photo')
                 }
             }
         ]

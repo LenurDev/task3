@@ -66,11 +66,11 @@ block('seed-list-item').content()(function () {
                             mods: {theme: 'islands', size: 'm', view: 'action', type: 'link'},
                             mix: {block: 'seed-list-item', elem: 'answer'},
                             url: '/seed/add/?id=' + seed.id,
-                            text: i18n('root', 'reply')
+                            text: i18n('seedListItem', 'reply')
                         },
                         seed.parent ? {
                             elem: 'reply',
-                            content: i18n('root', 'isAnswer')
+                            content: i18n('seedListItem', 'isAnswer')
                         } : ''
                     ]
                 }

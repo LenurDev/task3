@@ -11,10 +11,10 @@ modules.define('lang', ['i-bem__dom', 'jquery'], function (provide, BEMDOM, $) {
                         select.on('change', function() {
                             var lang = this.getVal();
                             //@todo loader
-                            $.get('/lang/'+ lang)
-                                .done(function (data) {
-
-                                });
+                            //$.get('/lang/'+ lang)
+                            //    .done(function (data) {
+                            //
+                            //    });
                         });
                     }
                 }

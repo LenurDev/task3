@@ -1,4 +1,6 @@
 block('login').content()(function () {
+    var i18n = this.i18n;
+
     return [
         {
             elem: 'center',
@@ -14,7 +16,7 @@ block('login').content()(function () {
         },
         {
             elem: 'please',
-            content: 'Пожалуйста, авторизируйтесь'
+            content: i18n('login', 'please')
         },
         {
             elem: 'facebook',
@@ -22,7 +24,7 @@ block('login').content()(function () {
                 block: 'button',
                 mods: {theme: 'fvbutton', type: 'link'},
                 url: '/login/facebook',
-                text: 'Через facebook',
+                text: i18n('login', 'facebook'),
                 icon: {
                     block: 'icon',
                     mods: {
@@ -37,7 +39,7 @@ block('login').content()(function () {
                 block: 'button',
                 mods: {theme: 'fvbutton', type: 'link'},
                 url: '/login/vkontakte',
-                text: 'Через vkontakte',
+                text: i18n('login', 'vk'),
                 icon: {
                     block: 'icon',
                     mods: {
@@ -45,6 +47,9 @@ block('login').content()(function () {
                     }
                 }
             }
+        },
+        {
+            block: 'lang'
         }
     ]
 });

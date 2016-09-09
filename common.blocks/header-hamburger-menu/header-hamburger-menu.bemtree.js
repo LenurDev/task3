@@ -1,5 +1,6 @@
 block('header-hamburger-menu').content()(function () {
-    var currentUser = this.ctx.currentUser || false;
+    var currentUser = this.ctx.currentUser || false,
+        i18n        = this.i18n;
     return [
         {
             elem: 'checkbox',
@@ -28,7 +29,7 @@ block('header-hamburger-menu').content()(function () {
                             elem: 'link',
                             tag: 'a',
                             attrs: {href: '/profile/'+currentUser.nick},
-                            content: 'Профиль'
+                            content: i18n('hhm', 'profile')
                         }
                     },
                     {
@@ -38,7 +39,7 @@ block('header-hamburger-menu').content()(function () {
                             elem: 'link',
                             tag: 'a',
                             attrs: {href: '/profile/'+currentUser.nick+'/follow'},
-                            content: 'Подписки'
+                            content: i18n('hhm', 'subscription')
                         }
                     },
                     {
@@ -48,7 +49,7 @@ block('header-hamburger-menu').content()(function () {
                             elem: 'link',
                             tag: 'a',
                             attrs: {href: '/profile/'+currentUser.nick+'/subscribers'},
-                            content: 'Подписчики'
+                            content: i18n('hhm', 'followers')
                         }
                     }
                 ] : '',
@@ -59,7 +60,7 @@ block('header-hamburger-menu').content()(function () {
                         elem: 'link',
                         tag: 'a',
                         attrs: { href: '/profile/my' },
-                        content: 'Настройки'
+                        content: i18n('hhm', 'settings')
                     }
                 },
                 {
@@ -69,7 +70,7 @@ block('header-hamburger-menu').content()(function () {
                         elem: 'link',
                         tag: 'a',
                         attrs: { href: '/logout' },
-                        content: 'Выход'
+                        content: i18n('hhm', 'exit')
                     }
                 }
             ]

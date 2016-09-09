@@ -27,6 +27,8 @@ function render(req, res, data, context) {
         cacheKey = req.url + req.lang + (context ? JSON.stringify(context) : '') + (user ? JSON.stringify(user) : ''),
         cached = cache[cacheKey];
 
+console.log('LANG in Session', req.session.lang);
+console.log('LANG', lang);
     if (useCache && cached && (new Date() - cached.timestamp < cacheTTL)) {
         return res.send(cached.html);
     }

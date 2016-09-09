@@ -38,7 +38,11 @@ module.exports = function(conn, passport){
     router.get('/lang/:lang', function(req, res, next) {
         console.log('R', req.params.lang);
         req.session.lang = req.params.lang;
-        res.redirect('/login');
+//        res.redirect('/login');
+        render(req,res, {
+            view:'login',
+            title: 'login'
+        });
     });
 
     //seed
@@ -61,11 +65,11 @@ module.exports = function(conn, passport){
     router.get('/profiles', require('connect-ensure-login').ensureLoggedIn(), userController.viewProfiles);
 
     router.get('/login', function(req, res){
-          render(req, res, {
+      render(req, res, {
           view:'login',
-          title: 'Authorization'
+          title: 'login'
          });
-        });
+    });
 
     router.get('/login/facebook',
         passport.authenticate('facebook'));
@@ -74,21 +78,21 @@ module.exports = function(conn, passport){
         passport.authenticate('facebook', { failureRedirect: '/login' }),
         function(req, res) {
             res.redirect('/');
-        });
+    });
 
     router.get('/login/vkontakte',
         passport.authenticate('vkontakte'),
         function (req, res) {
             // The request will be redirected to vk.com for authentication, so
             // this function will not be called.
-        });
+    });
 
     router.get('/login/vkontakte/return',
         passport.authenticate('vkontakte', { failureRedirect: '/login' }),
         function (req, res) {
             // Successful authentication, redirect home.
             res.redirect('/');
-        });
+    });
 
     router.get('/logout', function(req, res){
         req.logout();
@@ -120,7 +124,7 @@ module.exports = function(conn, passport){
                 if (!isAjax) {
                     render(req, res, {
                         view: 'home',
-                        title: 'Home Page',
+                        title: 'root',
                         meta: {
                             description: 'Лента твитов',
                             og: {
@@ -141,23 +145,25 @@ module.exports = function(conn, passport){
     });
 
     router.get('/search', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
-          var profile = req.user;
-          var viewopts = {
+      var profile = req.user;
+      var viewopts = {
           view: 'search',
-          title: 'search',
+          title: 'seedListItem',
           profile: profile,
           isAuthenticated: req.isAuthenticated()
-    }
-          seedController.seedSearch(req.query.text, function(err, searchedResult) {
-            if (req.query.text[0] == "@"){
-                viewopts.users = searchedResult;
-            }
-            else {
-              viewopts.seeds = searchedResult;
-            }
-          render(req,res, viewopts);
-  });
-});
+        };
+
+      seedController.seedSearch(req.query.text, function(err, searchedResult) {
+        if (req.query.text[0] == "@"){
+            viewopts.users = searchedResult;
+        } else {
+          viewopts.seeds = searchedResult;
+        }
+
+        render(req,res, viewopts);
+      });
+    });
+
     router.get('*', function(req, res) {
         res.status(404);
         return render(req, res, { view: '404' });

@@ -1,7 +1,7 @@
 module.exports = {
     seedListItem: {
-        lang: 'en',
-        main: 'Main page',
-        key: 'list-item'
+        title: 'Search',
+        isAnswer: 'is answer',
+        reply: 'reply'
     }
 };

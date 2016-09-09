@@ -4,6 +4,7 @@ modules.define('subscribe-button', ['i-bem__dom', 'jquery'], function (provide, 
             'js': {
                 'inited': function () {
                     var subscribeButton = this.findBlockInside('subscribe', 'button');
+                    console.log('subscribeButton', subscribeButton);
                     var self = this;
                     this.bindTo('subscribe', 'click', function (e) {
                         e.preventDefault();
