@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = require('mongoose').Types.ObjectId;
+var metascraper = require('metascraper');
+var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
 var schema =  new Schema({
     msg: String,
@@ -20,6 +22,12 @@ var schema =  new Schema({
     },
     image: String, // URL
     latlng: String,
+    links: {
+        url: String,
+        title: String,
+        image: String,
+        description: String
+    },
     link: Schema.Types.ObjectId // id в кэше сниппетов ссылок
 });
 
@@ -111,7 +119,7 @@ schema.statics.getPlain = function (user, opts, callback) {
         {
             $limit: 10
         }
-];
+    ];
 
     agregators.push();
     seed.aggregate(agregators, function(err, seeds) {
@@ -120,6 +128,7 @@ schema.statics.getPlain = function (user, opts, callback) {
             return {
                 id: seed._id,
                 msg: seed.msg,
+                links: seed.links,
                 datetime: seed.datetime,
                 parent: seed.parent, //Твит на который сделали ответ
                 profile: seed.user[0],
@@ -189,8 +198,27 @@ schema.pre('save', function(next) {
                 return nick.trim().substr(1);
             });
         }
+
+        var match = this.msg.match(pattern);
+        if (!match) {
+            return next();
+        }
+
+        var url = match[0];
+        var self = this;
+        metascraper.scrapeUrl(url)
+            .then(function(data) {
+                console.log('DDD', data);
+                self.links = data;
+                next();
+            })
+            .catch(function() {
+                next();
+            });
+
+    } else {
+        next();
     }
-    next();
 });
 
 module.exports = mongoose.model('Seed', schema);

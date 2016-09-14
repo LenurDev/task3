@@ -1,0 +1,12 @@
+.snippet  {
+    float:  right;
+}
+
+.snippet h3.snippet__title {
+    color:red;
+}
+
+.snippet img{
+    width:  150px;
+    height: 130px;
+}

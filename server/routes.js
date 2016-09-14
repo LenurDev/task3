@@ -8,29 +8,28 @@ module.exports = function(conn, passport){
         , multer  = require('multer')
         , config = require('./config')
         ; render = require('./render').render
+        ; async = require('async');
         ;
 
-    var async = require('async');
-
-    var seedController = require('./ctl/seedCtrl')(router);
-    var userController = require('./ctl/userCtrl')(router);
-
-    var avatarStorage = multer.diskStorage({
-        destination: config.staticFolder+'/avatar/',
-        filename: function (req, file, cb) {
-            if(req.user){
-                cb(null, req.user.nick+'.'+(file.mimetype.split('/')[1]));
-                return;
+    var seedController = require('./ctl/seedCtrl')(router),
+        userController = require('./ctl/userCtrl')(router),
+        avatarStorage = multer.diskStorage({
+            destination: config.staticFolder+'/avatar/',
+            filename: function (req, file, cb) {
+                if(req.user){
+                    cb(null, req.user.nick+'.'+(file.mimetype.split('/')[1]));
+                    return;
+                }
+                cb(null, file.originalname);
             }
-            cb(null, file.originalname);
-        }
-    });
-    var userContent = multer.diskStorage({
-        destination: config.staticFolder + '/usercontent/',
-        filename: function (req, file, cb) {
-            return cb(null, req.user.nick + '_file_' + Date.now() + '_' + file.originalname);
-        }
-    });
+        }),
+        userContent = multer.diskStorage({
+            destination: config.staticFolder + '/usercontent/',
+            filename: function (req, file, cb) {
+                return cb(null, req.user.nick + '_file_' + Date.now() + '_' + file.originalname);
+            }
+        });
+
     //user initial setup
     router.get('/profile/setup', require('connect-ensure-login').ensureLoggedIn(), userController.findByIdPickName);
     router.post('/profile/setup', require('connect-ensure-login').ensureLoggedIn(), userController.updateByIdPickName);

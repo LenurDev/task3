@@ -14,6 +14,24 @@ block('seed-list-item').content()(function () {
 
     var msg = seed.msg;
 
+    var cont = [];
+    if (typeof seed.links !== 'undefined') {
+        seed.links.title ? cont.push(
+            {
+                elem: 'title',
+                tag: 'h3',
+                content: seed.links.title
+            }): '';
+
+        seed.links.image ? cont.push(
+            {
+                block: 'image',
+                url: seed.links.image,
+                alt: 'link Image'
+            }) : '';
+    }
+
+
     //ToDo: переделать хардкод HTML на BEM объекты
      msg = msg.replace(/@[a-z0-9_-]+/ig, '<a class="link link__control" href="/profile/$&">$&</a>');
     msg = msg.replace(/href="\/profile\/@/g, 'href="/profile/');
@@ -44,6 +62,11 @@ block('seed-list-item').content()(function () {
                                 content: moment(seed.datetime).fromNow()
                             }
                         },
+                        cont.length > 0 ?
+                        {
+                            block: 'snippet',
+                            content: cont
+                        } : '',
                         {
                             elem: 'msg',
                             content: msg
