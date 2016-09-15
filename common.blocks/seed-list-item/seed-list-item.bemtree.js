@@ -31,14 +31,9 @@ block('seed-list-item').content()(function () {
             }) : '';
     }
 
-
-    //ToDo: переделать хардкод HTML на BEM объекты
-     msg = msg.replace(/@[a-z0-9_-]+/ig, '<a class="link link__control" href="/profile/$&">$&</a>');
-    msg = msg.replace(/href="\/profile\/@/g, 'href="/profile/');
-     msg = msg.replace(/#.+?(\s|$)/g, '<a class="link link__control" href="/search/?text=$&">$&</a>');
-     msg = msg.replace(/(https?:\/\/[^\s]+)/g, '<a class="link link__control" href="$&" target="_blank">$&</a>');
-    //var nicks = msg.match(/@[a-z0-9_-]+/ig);
-    //msg.split(/@[a-z0-9_-]+/ig);
+    var profile = msg.match(/@[a-z0-9_-]+/ig);
+    var links = msg.match(/(https?:\/\/[^\s]+)/g);
+    msg = msg.replace(/(https?:\/\/[^\s]+)/g, '');
 
     return [
         {
@@ -58,13 +53,13 @@ block('seed-list-item').content()(function () {
                             url: '/seed/view/' + seed.id,
                             content: {
                                 elem: 'date',
-                                mix: {block: 'seed-list-item', elem: 'date'},
+                                //mix: {block: 'seed-list-item', elem: 'date'},
                                 content: moment(seed.datetime).fromNow()
                             }
                         },
                         cont.length > 0 ?
                         {
-                            block: 'snippet',
+                            elem: 'snippet',
                             content: cont
                         } : '',
                         {
@@ -77,6 +72,28 @@ block('seed-list-item').content()(function () {
                             url: seed.img,
                             alt: 'Seed Image',
                             height: 'auto'
+                        } : '',
+
+                        links.length > 0 ?
+                            links.map(function(link){
+                            return {
+                                block: 'link',
+                                url: link,
+                                content: {
+                                    elem: 'control',
+                                    content: link
+                                }
+                            }
+                        }) : '',
+
+                        profile ?
+                        {
+                            block: 'link',
+                            url: '/profile/' + profile,
+                            content: {
+                                elem: 'control',
+                                content: profile
+                            }
                         } : ''
                     ]
 
