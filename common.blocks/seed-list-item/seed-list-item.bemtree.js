@@ -95,6 +95,14 @@ block('seed-list-item').content()(function () {
                                 content: profile
                             }
                         } : ''
+                        //
+                        ////maps
+                        //{
+                        //    block: 'map',
+                        //    js: true,
+                        //    mods: {api: 'ymaps'}
+                        //}
+
                     ]
 
                 },

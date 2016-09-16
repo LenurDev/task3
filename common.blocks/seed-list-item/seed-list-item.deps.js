@@ -24,5 +24,9 @@
                 view: 'action'
             }
         }
+        //{
+        //    block: 'map',
+        //    mods: 'ymaps'
+        //}
     ]
 })
