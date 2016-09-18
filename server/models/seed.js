@@ -12,10 +12,11 @@ var schema =  new Schema({
         type: Date,
         default: Date.now
     },
-    parent: Schema.Types.ObjectId, // id Другого Seed
-    child: [
-        Schema.Types.ObjectId // id Другого Seed
-    ],
+    parent: {
+        _id: Schema.Types.Mixed,
+        msg: String
+    },
+    child:[{type: Schema.Types.ObjectId, ref: 'Seed'}],
     author: {
         type: Schema.Types.ObjectId, // id коллекции User
         required: true
@@ -124,13 +125,16 @@ schema.statics.getPlain = function (user, opts, callback) {
     agregators.push();
     seed.aggregate(agregators, function(err, seeds) {
         if (err) return callback(err);
+
+console.log('seeds', seeds);
+
         var seedsPlain = seeds.map(function (seed) {
             return {
                 id: seed._id,
                 msg: seed.msg,
                 links: seed.links,
                 datetime: seed.datetime,
-                parent: seed.parent, //Твит на который сделали ответ
+                parent: seed.parent, //Твит на который сделали ответ,
                 profile: seed.user[0],
                 img: seed.image,
                 tags: seed.tags,

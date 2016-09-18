@@ -9,27 +9,55 @@ module.exports = function(app) {
     const render = require('../render').render;
     var Seed = require('../models/seed.js');
     var User = require('../models/user.js');
-
+    var self = this;
 
     return {
         add: function(req, res, next) {
             if (req.body.text) {
                 var msg = req.body.text;
+                var parentId = req.body.parentId;
+
                 var seed = new Seed({
-                    msg : msg,
+                    msg: msg,
                     datetime: Date.now(),
                     author: req.user._id,
-                    parent: req.body.parent
+                    parent: null
                 });
 
                 if (req.file) {
                     seed.image = '/usercontent/' + req.file.filename;
                 }
 
-                seed.save(function (err) {
-                    if (err) return next (err);
-                });
-                res.redirect('/');
+                if (parentId) {
+                    Seed.findById(parentId,  function(err, parent) {
+                        if(err) return console.error(err);
+                        else {
+                            console.log('parentparent', parent);
+
+                            seed.parent = parent;
+
+                            seed.save(function (err, child) {
+                                if (err) return next (err);
+                                if (child !== null) {
+                                    Seed.findByIdAndUpdate(parentId,
+                                        {$push:
+                                        {child: child._id}}, function (err) {
+                                        if (err) {
+                                            return next (err);
+                                        }
+
+                                        res.redirect('/');
+                                    });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    seed.save(function (err) {
+                        if (err) return next(err);
+                    });
+                    res.redirect('/');
+                }
             } else {
                 res.redirect('/seed/add');
             }
@@ -54,7 +82,7 @@ module.exports = function(app) {
 
                     function loadParents(seed) {
                         if (seed.parent) {
-                            Seed.getSeed(seed.parent, function (err, seed) {
+                            Seed.getSeed(seed.parent._id, function (err, seed) {
                                 if (err) return next(err);
                                 parents.unshift(seed);
                                 loadParents(seed);
@@ -141,6 +169,7 @@ module.exports = function(app) {
         },
 
         modAddSeed: function(req, res) {
+            console.log('req', req.query.id);
             render(req, res, {
                 view: 'addSeed',
                 title: 'Add seed page',

@@ -13,6 +13,7 @@ module.exports = function(conn, passport){
 
     var seedController = require('./ctl/seedCtrl')(router),
         userController = require('./ctl/userCtrl')(router),
+        indexController = require('./ctl/indexCtrl')(router),
         avatarStorage = multer.diskStorage({
             destination: config.staticFolder+'/avatar/',
             filename: function (req, file, cb) {
@@ -33,42 +34,42 @@ module.exports = function(conn, passport){
     //user initial setup
     router.get('/profile/setup', require('connect-ensure-login').ensureLoggedIn(), userController.findByIdPickName);
     router.post('/profile/setup', require('connect-ensure-login').ensureLoggedIn(), userController.updateByIdPickName);
-
-    router.get('/lang/:lang', function(req, res, next) {
-        console.log('R', req.params.lang);
-        req.session.lang = req.params.lang;
-//        res.redirect('/login');
-        render(req,res, {
-            view:'login',
-            title: 'login'
-        });
-    });
-
-    //seed
-    router.post(
-        '/seed/add',
-        require('connect-ensure-login').ensureLoggedIn(),
-        multer({ storage: userContent }).single('image'),
-        seedController.add);
-    router.get('/seed/add', require('connect-ensure-login').ensureLoggedIn(), seedController.modAddSeed);
-    router.post('/seeds/notify', require('connect-ensure-login').ensureLoggedIn(), seedController.countNewSeeds);
-
-    //view seed with replies
-    router.get('/seed/view/:id', seedController.view);
-
-    //user
     router.get('/profile/my', require('connect-ensure-login').ensureLoggedIn(), userController.editMyProfile);
     router.post('/profile/my', multer({ storage: avatarStorage }).single('newAvatar'), userController.updateMyProfile);
     router.get('/profile/:nick/:action', require('connect-ensure-login').ensureLoggedIn(), userController.profileAction);
     router.get('/profile/:nick', require('connect-ensure-login').ensureLoggedIn(), userController.viewProfile);
     router.get('/profiles', require('connect-ensure-login').ensureLoggedIn(), userController.viewProfiles);
 
-    router.get('/login', function(req, res){
-      render(req, res, {
-          view:'login',
-          title: 'login'
-         });
+    //seed
+    router.get('/seed/add', require('connect-ensure-login').ensureLoggedIn(), seedController.modAddSeed);
+    router.post('/seed/add',
+        require('connect-ensure-login').ensureLoggedIn(), multer({ storage: userContent }).single('image'), seedController.add);
+    router.post('/seeds/notify', require('connect-ensure-login').ensureLoggedIn(), seedController.countNewSeeds);
+    //view seed with replies
+    router.get('/seed/view/:id', seedController.view);
+    router.get('/search', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
+        var profile = req.user;
+        var viewopts = {
+            view: 'search',
+            title: 'seedListItem',
+            profile: profile,
+            isAuthenticated: req.isAuthenticated()
+        };
+        seedController.seedSearch(req.query.text, function(err, searchedResult) {
+            if (req.query.text[0] == "@"){
+                viewopts.users = searchedResult;
+            } else {
+                viewopts.seeds = searchedResult;
+            }
+
+            render(req,res, viewopts);
+        });
     });
+
+    //common
+    router.get('/lang/:lang', indexController.lang);
+    router.get('/login', indexController.login);
+    router.get('/logout', indexController.logout);
 
     router.get('/login/facebook',
         passport.authenticate('facebook'));
@@ -91,12 +92,6 @@ module.exports = function(conn, passport){
         function (req, res) {
             // Successful authentication, redirect home.
             res.redirect('/');
-    });
-
-    router.get('/logout', function(req, res){
-        req.logout();
-        req.session.lang = null;
-        res.redirect('/');
     });
 
     router.get('/', require('connect-ensure-login').ensureLoggedIn(), function (req, res, next) {
@@ -141,26 +136,6 @@ module.exports = function(conn, passport){
                 }
             });
         });
-    });
-
-    router.get('/search', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
-      var profile = req.user;
-      var viewopts = {
-          view: 'search',
-          title: 'seedListItem',
-          profile: profile,
-          isAuthenticated: req.isAuthenticated()
-        };
-
-      seedController.seedSearch(req.query.text, function(err, searchedResult) {
-        if (req.query.text[0] == "@"){
-            viewopts.users = searchedResult;
-        } else {
-          viewopts.seeds = searchedResult;
-        }
-
-        render(req,res, viewopts);
-      });
     });
 
     router.get('*', function(req, res) {

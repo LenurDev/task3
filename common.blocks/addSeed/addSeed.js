@@ -12,16 +12,16 @@ modules.define('addSeed', ['i-bem__dom'], function(provide, BEMDOM) {
 
                     var location = [];
 
-                    if ("geolocation" in navigator) {
-                        navigator.geolocation.getCurrentPosition(function(position) {
-                            location.push(position.coords.latitude);
-                            location.push(position.coords.longitude);
-                        });
-                        /* геолокация доступна */
-                    } else {
-                        console.log('no');
-                        /* геолокация НЕдоступна */
-                    }
+                    // if ("geolocation" in navigator) {
+                    //     navigator.geolocation.getCurrentPosition(function(position) {
+                    //         location.push(position.coords.latitude);
+                    //         location.push(position.coords.longitude);
+                    //     });
+                    //     /* геолокация доступна */
+                    // } else {
+                    //     console.log('no');
+                    //     /* геолокация НЕдоступна */
+                    // }
 
                 }
             }
