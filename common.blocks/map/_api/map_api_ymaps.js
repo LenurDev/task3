@@ -1,28 +1,26 @@
-modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
-    provide(MAP.decl({ modName : 'api', modVal : 'ymaps'},  {
+modules.define('map', ['i-bem__dom', 'loader_type_js', 'jquery'], function(provide, BEMDOM, loader, $) {
+    provide(BEMDOM.decl({ name: this.name, modName: 'api', modVal: 'ymaps' }, {
         onSetMod: {
             'js': {
-                'inited': function () {
-                    console.log('MAPS');
+                inited: function () {
+                    console.log('ff-Maps');
                     this.loadMapsApi();
                 }
             }
-
         },
 
-        // Описываем модули, которыре будем загружать.
+        // Описываем модули, которые будем загружать.
         mapsPackages: [
             [
                 'package.full'
             ]
         ],
-
         /**
          * Загрузчик API.
          */
         loadMapsApi: function () {
             if (!window.ymaps) {
-                var apiScript = document.createElement('script'),
+                var apiScript = {},
                     apiCallback = 'ymapsloaded';
 
                 window[apiCallback] = $.proxy(function () {
@@ -30,18 +28,17 @@ modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
                 }, this);
 
                 apiScript.src = [
-                    'http://api-maps.yandex.ru/2.0/?',
+                    'http://api-maps.yandex.ru/2.0.29/?',
                     '&load=' + this.mapsPackages[0].join(','),
                     '&lang=' + this.params.lang,
                     '&onload=' + apiCallback
                 ].join('');
+                loader(apiScript.src);
 
-                document.getElementsByTagName('head')[0].appendChild(apiScript);
             } else {
                 this.onAPILoaded();
             }
         },
-
         /**
          * Выполнится после загрузки API.
          */
@@ -49,7 +46,6 @@ modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
             // Запускаем инициализацию карты.
             this.initMap();
         },
-
         /**
          * Инициализация карты.
          */
@@ -57,14 +53,13 @@ modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
             var center = this.params.center || [55.76, 37.64],
                 zoom = this.params.zoom;
 
-            // Инициализация карты
             this._map = new ymaps.Map(this.domElem[0], {
                 center: center,
                 zoom: zoom,
                 behaviors: ['drag', 'dblClickZoom', 'scrollZoom']
             });
 
-            // Если есть метки, то добавляем метки на карту.
+            // Если есть метки, то добавляем их на карту.
             if (this.params.geoObjects && this.params.geoObjects.length > 0) {
                 this.params.geoObjects.forEach(function (item) {
                     // Проверяем, является ли элемент коллекцией / группой.
@@ -74,7 +69,7 @@ modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
                             properties: item.properties
                         }, item.options);
 
-                        // Теперь добавим элементы, описанные в bemjson в коллецию.
+                        // Теперь добавим элементы, описанные в bemjson, в коллекцию.
                         item.data.forEach(function (placemark) {
                             placemark.options = placemark.options || {};
                             geoObject.add(new ymaps.Placemark(placemark.coords, placemark.properties, placemark.options));
@@ -84,7 +79,6 @@ modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
                         geoObject = new ymaps.Placemark(item.coords, item.properties, item.options);
                     }
 
-                    // После можно добавлять географический объект на карту.
                     this._map.geoObjects.add(geoObject);
                 }, this);
             }
@@ -115,7 +109,7 @@ modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
                 this._map.copyrights.add('&copy; OpenStreetMap contributors, CC-BY-SA');
             }
 
-            // Добавляем контроллы на карту.
+            // Добавляем контролы на карту.
             this._map.controls
                 .add('zoomControl')
                 .add('scaleLine')
@@ -124,17 +118,17 @@ modules.define('map', ['i-bem__dom'], function (provide, BEMDOM, MAP) {
 
             // Блок поделится информацией о том, что он инициализировал карту.
             // В данных передаём ссылку на экземпляр карты.
-            this.trigger('map-inited', {
+            this.emit('map-inited', {
                 map: this._map
             });
         },
 
         /**
-         * Возвращает экземпляр карты.
          * @return {Map | Null} Экземпляр карты, либо null, если карта не инстанцирована.
          */
         getMap: function () {
             return this._map || null;
         }
+
     }));
 });
