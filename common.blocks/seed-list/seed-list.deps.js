@@ -2,7 +2,7 @@
     shouldDeps: [
         {
             block: 'events',
-            elem: 'channels',
+            elem: 'channels'
         }
     ]
 })

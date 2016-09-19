@@ -74,7 +74,7 @@ block('seed-list-item').content()(function () {
                             height: 'auto'
                         } : '',
 
-                        links.length > 0 ?
+                        links && links.length > 0 ?
                             links.map(function(link){
                             return {
                                 block: 'link',

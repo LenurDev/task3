@@ -14,7 +14,7 @@ block('addSeed').content()(function () {
             },
             this.ctx.replyTo ? {
                 block: 'input',
-                name: 'parent',
+                name: 'parentId',
                 mods: {type: 'hidden'},
                 val: this.ctx.replyTo
             } : '',
