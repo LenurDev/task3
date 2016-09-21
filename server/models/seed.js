@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ObjectId = require('mongoose').Types.ObjectId;
+var ObjectId = mongoose.Types.ObjectId;
 var metascraper = require('metascraper');
 var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
 
@@ -13,10 +13,11 @@ var schema =  new Schema({
         default: Date.now
     },
     parent: {
-        _id: Schema.Types.Mixed,
-        msg: String
+        type: Schema.Types.ObjectId, ref: 'Seed'
     },
+    root: {type: Schema.Types.ObjectId, ref: 'Seed'},
     child:[{type: Schema.Types.ObjectId, ref: 'Seed'}],
+    //allChild:[{type: Schema.Types.ObjectId, ref: 'Seed'}],
     author: {
         type: Schema.Types.ObjectId, // id коллекции User
         required: true
@@ -126,7 +127,7 @@ schema.statics.getPlain = function (user, opts, callback) {
     seed.aggregate(agregators, function(err, seeds) {
         if (err) return callback(err);
 
-console.log('seeds', seeds);
+//console.log('seeds', seeds);
 
         var seedsPlain = seeds.map(function (seed) {
             return {
@@ -212,7 +213,6 @@ schema.pre('save', function(next) {
         var self = this;
         metascraper.scrapeUrl(url)
             .then(function(data) {
-                console.log('DDD', data);
                 self.links = data;
                 next();
             })

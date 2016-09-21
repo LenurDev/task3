@@ -3,21 +3,18 @@
  */
 
 module.exports = function () {
-    const render = require('../render').render;
+    const render = require('../render');
 
     return {
         lang: function(req, res, next) {
-            console.log('R', req.params.lang);
             req.session.lang = req.params.lang;
-            //        res.redirect('/login');
-            render(req,res, {
-                view:'login',
-                title: 'login'
+            render.renderCustomHtml(req,res, {
+                block:'login'
             });
         },
 
         login: function(req, res){
-            render(req, res, {
+            render.render(req, res, {
                 view:'login',
                 title: 'login'
             });

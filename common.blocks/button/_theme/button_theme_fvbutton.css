@@ -21,7 +21,7 @@
             transition-duration: .3s;
     -webkit-transition-property: all;
             transition-property: all;
-    text-align: center;
+    text-align: left;
     text-decoration: none;
 
     color: #666;

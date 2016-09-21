@@ -69,11 +69,37 @@ console.log('LANG', lang);
     res.send(html);
 }
 
+function renderCustomHtml(req, res, data) {
+
+    var lang = req.session.lang || 'ru';
+
+    try {
+        var bemjson = BEMTREE[lang].apply(data);
+    } catch(err) {
+        return res.sendStatus(500);
+    }
+
+    try {
+        var html = BEMHTML.apply(bemjson);
+    } catch(err) {
+        return res.sendStatus(500);
+    }
+
+    res.send(html);
+
+}
+
+function ren(req, res, bemjson) {
+    var html = BEMHTML.apply(bemjson);
+    res.send(html);
+}
+
 function dropCache() {
     cache = {};
 }
 
 module.exports = {
     render: render,
+    renderCustomHtml: renderCustomHtml,
     dropCache: dropCache
 };

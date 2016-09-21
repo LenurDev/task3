@@ -21,7 +21,8 @@ module.exports = function(app) {
                     msg: msg,
                     datetime: Date.now(),
                     author: req.user._id,
-                    parent: null
+                    parent: null,
+                    root: null
                 });
 
                 if (req.file) {
@@ -29,34 +30,28 @@ module.exports = function(app) {
                 }
 
                 if (parentId) {
-                    Seed.findById(parentId,  function(err, parent) {
+                    seed.parent = parentId;
+                    Seed.findById(parentId, function(err, parent) {
+
                         if(err) return console.error(err);
-                        else {
-                            console.log('parentparent', parent);
+                            if (parent.parent !== null) {
+                                seed.root = parent.root;
+                            } else {
+                                seed.root = parent._id;
+                            }
 
-                            seed.parent = parent;
 
-                            seed.save(function (err, child) {
-                                if (err) return next (err);
-                                if (child !== null) {
-                                    Seed.findByIdAndUpdate(parentId,
-                                        {$push:
-                                        {child: child._id}}, function (err) {
-                                        if (err) {
-                                            return next (err);
-                                        }
+                        seed.save(function (err) {
+                            if (err) return next(err);
+                            res.redirect('/');
+                        });
 
-                                        res.redirect('/');
-                                    });
-                                }
-                            });
-                        }
                     });
                 } else {
                     seed.save(function (err) {
                         if (err) return next(err);
+                        res.redirect('/');
                     });
-                    res.redirect('/');
                 }
             } else {
                 res.redirect('/seed/add');

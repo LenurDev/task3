@@ -2,7 +2,7 @@ module.exports = {
     login: {
         title: 'Authorization',
         please: 'Please sign in',
-        facebook: 'with facebook',
-        vk: 'with vk'
+        facebook: 'Log in Facebook',
+        vk: 'Log in VK'
     }
 };

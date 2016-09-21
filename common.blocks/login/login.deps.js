@@ -14,7 +14,8 @@
       }
     },
     {
-      block: 'lang'
+      block: 'events',
+      elem: 'channels'
     }
   ]
 })

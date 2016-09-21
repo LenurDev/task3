@@ -71,7 +71,7 @@ module.exports = function(config) {
                     moment  : {commonJS : 'moment/min/moment-with-locales.js'}
                 },
                 engineOptions: {
-                    elemJsInstances: true,
+                    elemJsInstances: true
                     //escapeContent: true
                 }
             }],

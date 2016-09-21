@@ -47,9 +47,6 @@ block('login').content()(function () {
                     }
                 }
             }
-        },
-        {
-            block: 'lang'
         }
     ]
 });
