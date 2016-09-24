@@ -11,6 +11,7 @@ block('seed-list-item').content()(function () {
         i18n = this.i18n,
         moment = this.require('moment');
         moment.locale(i18n('root', 'lang'));
+    console.log();
 
     var msg = seed.msg;
 
